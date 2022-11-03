@@ -12,7 +12,7 @@ public class SimpleItemProcessor implements ItemProcessor<Product, Product> {
 	public Product process(Product item) throws Exception {
 		System.out.println(item);
 		// TODO Auto-generated method stub
-		return null;
+		return item;
 	}
 
 }

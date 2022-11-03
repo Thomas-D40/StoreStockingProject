@@ -25,7 +25,7 @@ public class CheckingFileExtensionTasklet implements Tasklet {
 		File folder = new File(fileToTreat);
 
 		if (folder.listFiles().length == 0) {
-			// chunkContext.getStepContext().getStepExecution().setTerminateOnly();
+			chunkContext.getStepContext().getStepExecution().setTerminateOnly();
 		}
 
 		for (File file : folder.listFiles()) {

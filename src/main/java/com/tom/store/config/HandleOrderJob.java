@@ -7,6 +7,7 @@ import org.springframework.batch.core.configuration.annotation.StepBuilderFactor
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.stereotype.Component;
 
 import com.tom.store.entity.Product;
@@ -15,6 +16,7 @@ import com.tom.store.readers.JsonOrderReader;
 import com.tom.store.tasklet.CheckingFileExtensionTasklet;
 import com.tom.store.tasklet.CheckingJsonFiles;
 import com.tom.store.writer.ConsoleItemWriter;
+import com.tom.store.writer.JpaWriters;
 
 @Component
 public class HandleOrderJob {
@@ -39,11 +41,20 @@ public class HandleOrderJob {
 
 	@Autowired
 	private ConsoleItemWriter<Product> consoleItemWriter;
+	
+	@Autowired
+	private JpaWriters jpaWriters;
+	
+	@Autowired
+	private JpaTransactionManager jpaTransactionManager;
 
 	@Bean
 	public Job OrderHandlerJob() {
-		return (jobBuilderFactory.get("Handle Order Job").incrementer(new RunIdIncrementer())).start(checkingFileStep())
-				.next(checkingJsonFileStep()).next(treatmentStep()).build();
+		return (jobBuilderFactory.get("Handle Order Job").incrementer(new RunIdIncrementer()))
+				.start(checkingFileStep())
+				.next(checkingJsonDataStep())
+				.next(treatmentStep())
+				.build();
 	}
 
 	@Bean
@@ -52,14 +63,17 @@ public class HandleOrderJob {
 	}
 	
 	@Bean
-	private Step checkingJsonFileStep() {
-		return stepBuilderFactory.get("Checking Json File Step").tasklet(checkingJsonFiles).build();
+	private Step checkingJsonDataStep() {
+		return stepBuilderFactory.get("Checking Json Data Step").tasklet(checkingJsonFiles).build();
 	}
 
 	@Bean
 	private Step treatmentStep() {
 		return stepBuilderFactory.get("Traitement des commandes").<Product, Product>chunk(3)
-				.reader(jsonOrderReader.ordersItemReader()).processor(simpleItemProcessor).writer(consoleItemWriter)
+				.reader(jsonOrderReader.ordersItemReader())
+				.processor(simpleItemProcessor)
+				.writer(jpaWriters.productJpaWriter())
+				.transactionManager(jpaTransactionManager)
 				.build();
 	}
 
