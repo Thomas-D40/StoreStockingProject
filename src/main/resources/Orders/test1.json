@@ -1,77 +1,127 @@
 [
   {
-    "quantity": 20,
-    "refNumber": 428,
-    "name": "Chaney"
+    "refNumber": 32,
+    "products": [
+      {
+        "refNumber": 39,
+        "quantity": 39
+      },
+      {
+        "refNumber": 21,
+        "quantity": 38
+      },
+      {
+        "refNumber": 30,
+        "quantity": 26
+      },
+      {
+        "refNumber": 24,
+        "quantity": 33
+      },
+      {
+        "refNumber": 31,
+        "quantity": 37
+      }
+    ]
   },
   {
-    "quantity": 24,
-    "refNumber": 246,
-    "name": "Brewer"
+    "refNumber": 34,
+    "products": [
+      {
+        "refNumber": 32,
+        "quantity": 35
+      },
+      {
+        "refNumber": 36,
+        "quantity": 30
+      },
+      {
+        "refNumber": 23,
+        "quantity": 38
+      },
+      {
+        "refNumber": 34,
+        "quantity": 27
+      },
+      {
+        "refNumber": 33,
+        "quantity": 27
+      }
+    ]
   },
   {
-    "quantity": 31,
-    "refNumber": 21,
-    "name": "Jefferson"
+    "refNumber": 27,
+    "products": [
+      {
+        "refNumber": 37,
+        "quantity": 26
+      },
+      {
+        "refNumber": 23,
+        "quantity": 39
+      },
+      {
+        "refNumber": 38,
+        "quantity": 28
+      },
+      {
+        "refNumber": 26,
+        "quantity": 35
+      },
+      {
+        "refNumber": 31,
+        "quantity": 40
+      }
+    ]
   },
   {
-    "quantity": 37,
-    "refNumber": 170,
-    "name": "Hanson"
+    "refNumber": 30,
+    "products": [
+      {
+        "refNumber": 35,
+        "quantity": 26
+      },
+      {
+        "refNumber": 25,
+        "quantity": 22
+      },
+      {
+        "refNumber": 20,
+        "quantity": 38
+      },
+      {
+        "refNumber": 33,
+        "quantity": 21
+      },
+      {
+        "refNumber": 39,
+        "quantity": 23
+      }
+    ]
   },
   {
-    "quantity": 32,
-    "refNumber": 466,
-    "name": "Klein"
-  },
-  {
-    "quantity": 29,
-    "refNumber": 285,
-    "name": "Rollins"
-  },
-  {
-    "quantity": 29,
-    "refNumber": 128,
-    "name": "Whitley"
-  },
-  {
-    "quantity": 28,
-    "refNumber": 461,
-    "name": "Ross"
-  },
-  {
-    "quantity": 31,
-    "refNumber": 438,
-    "name": "Mcintosh"
-  },
-  {
-    "quantity": 32,
-    "refNumber": 231,
-    "name": "Cummings"
-  },
-  {
-    "quantity": 23,
-    "refNumber": 97,
-    "name": "Johnson"
-  },
-  {
-    "quantity": 34,
-    "refNumber": 354,
-    "name": "Gray"
-  },
-  {
-    "quantity": 26,
-    "refNumber": 370,
-    "name": "Walls"
-  },
-  {
-    "quantity": 27,
-    "refNumber": 474,
-    "name": "May"
-  },
-  {
-    "quantity": 36,
-    "refNumber": 204,
-    "name": "Owen"
+    "refNumber": 25,
+    "products": [
+      {
+        "refNumber": 26,
+        "quantity": 38
+      },
+      {
+        "refNumber": 31,
+        "quantity": 20
+      },
+      {
+        "refNumber": 35,
+        "quantity": 30
+      },
+      {
+        "refNumber": 35,
+        "quantity": 24
+      },
+      {
+        "refNumber": 34,
+        "quantity": 36
+      }
+    ]
   }
 ]

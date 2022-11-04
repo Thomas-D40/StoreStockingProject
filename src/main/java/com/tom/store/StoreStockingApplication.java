@@ -7,7 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @EnableBatchProcessing
-@ComponentScan({"com.tom.store.config","com.tom.store.tasklet","com.tom.store.readers","com.tom.store.writer","com.tom.store.processor"})
+@ComponentScan({"com.tom.store.config","com.tom.store.tasklet","com.tom.store.readers","com.tom.store.writer","com.tom.store.processor","com.tom.store.listener"})
 public class StoreStockingApplication {
 
 	public static void main(String[] args) {

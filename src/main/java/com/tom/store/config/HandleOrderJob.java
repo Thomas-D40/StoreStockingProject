@@ -10,7 +10,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.stereotype.Component;
 
+import com.tom.store.entity.Order;
 import com.tom.store.entity.Product;
+import com.tom.store.listener.OrderHandlerListener;
 import com.tom.store.processor.SimpleItemProcessor;
 import com.tom.store.readers.JsonOrderReader;
 import com.tom.store.tasklet.CheckingFileExtensionTasklet;
@@ -47,6 +49,9 @@ public class HandleOrderJob {
 	
 	@Autowired
 	private JpaTransactionManager jpaTransactionManager;
+	
+	@Autowired
+	private OrderHandlerListener orderHandlerListener;
 
 	@Bean
 	public Job OrderHandlerJob() {
@@ -54,6 +59,7 @@ public class HandleOrderJob {
 				.start(checkingFileStep())
 				.next(checkingJsonDataStep())
 				.next(treatmentStep())
+				.listener(orderHandlerListener)
 				.build();
 	}
 
@@ -69,10 +75,10 @@ public class HandleOrderJob {
 
 	@Bean
 	private Step treatmentStep() {
-		return stepBuilderFactory.get("Traitement des commandes").<Product, Product>chunk(3)
+		return stepBuilderFactory.get("Traitement des commandes").<Order, Order>chunk(3)
 				.reader(jsonOrderReader.ordersItemReader())
 				.processor(simpleItemProcessor)
-				.writer(jpaWriters.productJpaWriter())
+				.writer(jpaWriters.orderJpaWriter())
 				.transactionManager(jpaTransactionManager)
 				.build();
 	}

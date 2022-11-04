@@ -2,9 +2,12 @@ package com.tom.store.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -15,10 +18,16 @@ public class Product {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
-	private String name;
 	
 	@Column(name = "ref_number")
 	private long refNumber;
+	
+	private int quantity;
+	
+	@ManyToOne
+	@JoinColumn(name= "order_id", nullable = false)
+	private Order order;
+	
 	
 	public long getRefNumber() {
 		return refNumber;
@@ -28,7 +37,7 @@ public class Product {
 		this.refNumber = refNumber;
 	}
 
-	private int quantity;
+	
 
 	public long getId() {
 		return id;
@@ -38,13 +47,7 @@ public class Product {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
-	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
 
 	public int getQuantity() {
 		return quantity;
@@ -53,11 +56,27 @@ public class Product {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
+	
+	
+	
+	
+
+	public Order getOrder() {
+		return order;
+	}
+
+	public void setOrder(Order order) {
+		this.order = order;
+	}
 
 	@Override
 	public String toString() {
-		return "Product [id=" + id + ", name=" + name + ", refNumber=" + refNumber + ", quantity=" + quantity + "]";
+		return "Product [id=" + id + ", refNumber=" + refNumber + ", quantity=" + quantity + ", order=" + order + "]";
 	}
+
+	
+	
+
 	
 	
 	

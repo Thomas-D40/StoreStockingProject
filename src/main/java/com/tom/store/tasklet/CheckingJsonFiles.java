@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Iterator;
 
 import org.springframework.batch.core.BatchStatus;
 import org.springframework.batch.core.StepContribution;
@@ -46,15 +47,25 @@ public class CheckingJsonFiles implements Tasklet {
 				// Read JSON file
 				Object obj = jsonParser.parse(reader);
 
-				JSONArray productList = (JSONArray) obj;
-				System.out.println(productList);
+				JSONArray orderList = (JSONArray) obj;
+				System.out.println(orderList);
 
-				for (int i = 0; i < productList.size(); i++) {
-					JSONObject product = (JSONObject) productList.get(i);
-					if (product.get("quantity") == null || product.get("name") == null || product.get("refNumber") == null) {
+				for (int i = 0; i < orderList.size(); i++) {
+					JSONObject order = (JSONObject) orderList.get(i);
+					System.out.println(order.get("products"));
+					JSONArray productList = (JSONArray) order.get("products");
+					if (productList == null) {
 						isFileValid = false;
 						break;
 					}
+					for (int j = 0; j < productList.size(); j++) {
+						JSONObject product = (JSONObject) productList.get(i);
+						if (product.get("quantity") == null || product.get("refNumber") == null) {
+							isFileValid = false;
+							break;
+						}
+					}
+					
 				}
 
 			} catch (FileNotFoundException e) {

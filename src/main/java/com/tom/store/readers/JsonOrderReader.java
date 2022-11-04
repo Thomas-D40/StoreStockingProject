@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
+import com.tom.store.entity.Order;
 import com.tom.store.entity.Product;
 
 @Component
@@ -19,8 +20,8 @@ public class JsonOrderReader {
 	private Resource[] inputResources;
 			
 	@Bean
-	public MultiResourceItemReader<Product> ordersItemReader() {
-		MultiResourceItemReader<Product> ordersItemReader = new MultiResourceItemReader<>();
+	public MultiResourceItemReader<Order> ordersItemReader() {
+		MultiResourceItemReader<Order> ordersItemReader = new MultiResourceItemReader<>();
 		ordersItemReader.setResources(inputResources);
 		System.out.println("Dans le multi ressources");
 		ordersItemReader.setDelegate(jsonReader());
@@ -30,11 +31,11 @@ public class JsonOrderReader {
 	}
 	
 	@Bean
-	public JsonItemReader<Product> jsonReader() {
-		JsonItemReader<Product> jsonItemReader = new JsonItemReader<Product>();
+	public JsonItemReader<Order> jsonReader() {
+		JsonItemReader<Order> jsonItemReader = new JsonItemReader<Order>();
 		System.out.println("Dans le json");
 		
-		jsonItemReader.setJsonObjectReader(new JacksonJsonObjectReader<>(Product.class));
+		jsonItemReader.setJsonObjectReader(new JacksonJsonObjectReader<>(Order.class));
 		
 		
 		return jsonItemReader;
