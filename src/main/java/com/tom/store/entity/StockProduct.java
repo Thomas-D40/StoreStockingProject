@@ -1,22 +1,15 @@
 package com.tom.store.entity;
 
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "orders")
-public class Order implements Serializable{
+@Table(name = "stock_products")
+public class StockProduct {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,8 +18,7 @@ public class Order implements Serializable{
 	@Column(name = "ref_number")
 	private long refNumber;
 	
-	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "order", orphanRemoval = true)
-	private List<Product> products = new ArrayList<>();
+	private int quantity;
 
 	public long getId() {
 		return id;
@@ -44,17 +36,17 @@ public class Order implements Serializable{
 		this.refNumber = refNumber;
 	}
 
-	public List<Product> getProducts() {
-		return products;
+	public int getQuantity() {
+		return quantity;
 	}
 
-	public void setProducts(List<Product> products) {
-		this.products = products;
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 
 	@Override
 	public String toString() {
-		return "Order [id=" + id + ", refNumber=" + refNumber + ", products=" + products + "]";
+		return "StockProduct [id=" + id + ", refNumber=" + refNumber + ", quantity=" + quantity + "]";
 	}
 	
 	

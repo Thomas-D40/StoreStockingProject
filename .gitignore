@@ -3,6 +3,8 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+**/src/main/resources/CRN
+**/src/main/resources/RefusedOrders
 
 ### STS ###
 .apt_generated

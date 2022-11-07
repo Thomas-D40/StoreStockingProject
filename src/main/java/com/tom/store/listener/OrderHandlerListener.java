@@ -4,11 +4,11 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import org.springframework.batch.core.ExitStatus;
+
+
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobExecutionListener;
-import org.springframework.batch.core.StepExecution;
-import org.springframework.batch.core.StepExecutionListener;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -22,16 +22,26 @@ public class OrderHandlerListener implements JobExecutionListener {
 
 	@Override
 	public void beforeJob(JobExecution jobExecution) {
-		// TODO Auto-generated method stub
+		File file = new File(fileUrl + jobExecution.getJobInstance().getJobName() + "_" + jobExecution.getJobId() + ".txt");
+		try {
+			FileWriter fileWriter = new FileWriter(file);
+			String firstLine = "JobName : " + jobExecution.getJobInstance().getJobName() + "\n";
+			String secondLineString = "Job Execution ID : " + jobExecution.getJobId() + "\n";
+			fileWriter.write(firstLine + secondLineString);
+			fileWriter.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
 		
 	}
 
 	@Override
 	public void afterJob(JobExecution jobExecution) {
-		File file = new File(fileUrl + jobExecution.getJobInstance().getJobName() + ".txt");
+		File file = new File(fileUrl + jobExecution.getJobInstance().getJobName() + "_" + jobExecution.getJobId() + ".txt");
 		try {
-			FileWriter fileWriter = new FileWriter(file);
-			String string = jobExecution.getStatus().toString();
+			FileWriter fileWriter = new FileWriter(file, true);
+			String string = "Status du job : " + jobExecution.getStatus().toString() + "\n";
 			System.out.println(string);
 			fileWriter.write(string);
 			fileWriter.close();

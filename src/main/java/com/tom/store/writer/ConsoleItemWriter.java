@@ -6,10 +6,10 @@ import org.springframework.batch.item.ItemWriter;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ConsoleItemWriter<Product> implements ItemWriter<Product> { 
+public class ConsoleItemWriter<StockProduct> implements ItemWriter<StockProduct> { 
     @Override
-    public void write(List<? extends Product> items) throws Exception { 
-        for (Product item : items) { 
+    public void write(List<? extends StockProduct> items) throws Exception { 
+        for (StockProduct item : items) { 
             System.out.println(item); 
         } 
     }
