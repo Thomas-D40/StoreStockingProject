@@ -14,16 +14,19 @@ import org.springframework.stereotype.Component;
 import com.tom.store.entity.Order;
 import com.tom.store.entity.Product;
 import com.tom.store.entity.StockProduct;
+import com.tom.store.entity.SubstractingOrderPojo;
 import com.tom.store.listener.OrderHandlerListener;
 import com.tom.store.listener.OrderHandlerStepsListener;
 import com.tom.store.processor.OrderSavingProcessor;
 import com.tom.store.processor.SubstractingOrderFromStockProcessor;
 import com.tom.store.readers.JpaProductsInStockReader;
 import com.tom.store.readers.JsonOrderReader;
+import com.tom.store.readers.SubstractingOrderjdbcItemReader;
 import com.tom.store.tasklet.CheckingFileExtensionTasklet;
 import com.tom.store.tasklet.CheckingJsonFiles;
 import com.tom.store.writer.ConsoleItemWriter;
 import com.tom.store.writer.JpaWriters;
+import com.tom.store.writer.StockJdbcWriter;
 
 @Component
 public class HandleOrderJob {
@@ -47,7 +50,6 @@ public class HandleOrderJob {
 
 	@Autowired
 	private OrderSavingProcessor simpleItemProcessor;
-	
 		
 	
 	@Autowired
@@ -57,7 +59,13 @@ public class HandleOrderJob {
 	private JpaProductsInStockReader jpaProductsInStockReader;
 	
 	@Autowired
+	private SubstractingOrderjdbcItemReader substractingOrderjdbcItemReader;
+	
+	@Autowired
 	private SubstractingOrderFromStockProcessor subtractingOrderFromStockProcessor;
+	
+	@Autowired
+	private StockJdbcWriter stockJdbcWriter;
 	
 	@Autowired
 	private ConsoleItemWriter<StockProduct> consoleItemWriter;
@@ -79,7 +87,7 @@ public class HandleOrderJob {
 				.next(retrievingFromJSONStep())
 				.next(checkingInStockProduct())
 				.listener(orderHandlerListener)
-				.listener(promotionListener())
+				//.listener(promotionListener())
 				.build();
 	}
 
@@ -102,27 +110,26 @@ public class HandleOrderJob {
 				.writer(jpaWriters.orderJpaWriter())
 				.transactionManager(jpaTransactionManager)
 				.listener(stepsListener)
-				.listener(promotionListener())
 				.build();
 	}
 	
 	@Bean
 	private Step checkingInStockProduct() {
-		return stepBuilderFactory.get("Récupération des produits en stock").<StockProduct, StockProduct>chunk(3)
-				.reader(jpaProductsInStockReader.stockProjectJpaItemReader())
+		return stepBuilderFactory.get("Récupération des produits en stock").<SubstractingOrderPojo, StockProduct>chunk(3)
+				.reader(substractingOrderjdbcItemReader.substractingItemReader())
 				.processor(subtractingOrderFromStockProcessor)
-				.writer(consoleItemWriter)
+				.writer(stockJdbcWriter.stockJdbcBatchItemWriter())
 				.listener(stepsListener)
 				.build();
 	}
 
-	@Bean
-	public ExecutionContextPromotionListener promotionListener() {
-		ExecutionContextPromotionListener listener = new ExecutionContextPromotionListener();
-
-		listener.setKeys(new String[] {"products"});
-
-		return listener;
-	}
+//	@Bean
+//	public ExecutionContextPromotionListener promotionListener() {
+//		ExecutionContextPromotionListener listener = new ExecutionContextPromotionListener();
+//
+//		listener.setKeys(new String[] {"products"});
+//
+//		return listener;
+//	}
 
 }

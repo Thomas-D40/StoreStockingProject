@@ -18,9 +18,7 @@ import net.bytebuddy.asm.Advice.This;
 @Component
 public class OrderSavingProcessor implements ItemProcessor<Order, Order> {
 
-	private StepExecution stepExecution;
-	
-	private ArrayList<Order> orders = new ArrayList<>();
+
 
 	@Override
 	public Order process(Order item) throws Exception {
@@ -30,23 +28,9 @@ public class OrderSavingProcessor implements ItemProcessor<Order, Order> {
 			product.setOrder(item);
 		}
 		
-		orders.add(item);
 
 		return item;
 	}
 
-	@BeforeStep
-	public void saveStepExecution(StepExecution stepExecution) {
-		this.stepExecution = stepExecution;
-	}
-
-	@AfterStep
-	public void transferProducts() {
-		ExecutionContext stepContext = this.stepExecution.getExecutionContext();
-		//System.out.println(orders);
-
-		stepContext.put("products", orders);
-
-	}
 
 }

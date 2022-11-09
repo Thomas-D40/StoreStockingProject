@@ -23,7 +23,6 @@ public class JsonOrderReader {
 	public MultiResourceItemReader<Order> ordersItemReader() {
 		MultiResourceItemReader<Order> ordersItemReader = new MultiResourceItemReader<>();
 		ordersItemReader.setResources(inputResources);
-		System.out.println("Dans le multi ressources");
 		ordersItemReader.setDelegate(jsonReader());
 	
 		
@@ -33,7 +32,7 @@ public class JsonOrderReader {
 	@Bean
 	public JsonItemReader<Order> jsonReader() {
 		JsonItemReader<Order> jsonItemReader = new JsonItemReader<Order>();
-		System.out.println("Dans le json");
+
 		
 		jsonItemReader.setJsonObjectReader(new JacksonJsonObjectReader<>(Order.class));
 		

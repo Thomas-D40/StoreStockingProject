@@ -13,27 +13,25 @@ import org.springframework.stereotype.Component;
 
 import com.tom.store.entity.Product;
 import com.tom.store.entity.StockProduct;
+import com.tom.store.entity.SubstractingOrderPojo;
 
 @Component
-public class SubstractingOrderFromStockProcessor implements ItemProcessor<StockProduct, StockProduct> {
+public class SubstractingOrderFromStockProcessor implements ItemProcessor<SubstractingOrderPojo, StockProduct> {
 
-	private String products;
+
 
 	@Override
-	public StockProduct process(StockProduct item) throws Exception {
-		System.out.println(products);
-		return item;
-	}
-
-	@BeforeStep
-	public void retrieveInterstepData(StepExecution stepExecution) {
-		System.out.println("Dans le beforeStep de la soustraction");
-		
-		JobExecution jobExecution = stepExecution.getJobExecution();
-		ExecutionContext jobContext = jobExecution.getExecutionContext();
-		this.products = (String) jobContext.get("products");
-	}
-
-	
+	public StockProduct process(SubstractingOrderPojo item) throws Exception {
+		System.out.println("Dans le process de substract");
+		System.out.println(item);
+		StockProduct stockProduct = new StockProduct();
+		stockProduct.setId(item.getStockProduct().getId());
+		int newQuantity = item.getStockProduct().getQuantity() - item.getProduct().getQuantity();
+		if (newQuantity < 0) {
+			throw new Exception ("Pas assez de produits en stock");
+		}
+		stockProduct.setQuantity(newQuantity);
+		return stockProduct;
+	}	
 
 }
